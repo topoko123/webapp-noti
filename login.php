@@ -48,7 +48,7 @@
 								<?php
 									echo $_SESSION['error'];
 									unset($_SESSION['error']);
-								?>
+								?><?php endif ?>
 						</div>
 						<div class="form-group">
 							<input type="text" class="form-control" name="rusmail" placeholder="example@rmutsb.ac.th" required="required">		
@@ -66,8 +66,8 @@
 			</div>
 		</div>
 	</div>
-</div>     
-<!--------------formlogin--------------->
+  </div>     -----
+      <!--------------formlogin---------->
 
 
 

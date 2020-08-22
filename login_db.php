@@ -5,7 +5,7 @@
 
     $errors = array();
 
-    if (isset($_POST['login_user'])) {
+    if (isset($_POST['submit'])) {
         $username = mysqli_real_escape_string($conn, $_POST['rusmail']);
         $password = mysqli_real_escape_string($conn, $_POST['password']);
 
@@ -21,7 +21,7 @@
             $password = md5($password);
             $query = "SELECT * FROM member WHERE rusmail = '$rusmail' AND password = '$password' ";
             $result = mysqli_query($conn, $query);
-
+            echo "$result";
             if (mysqli_num_rows($result) == 1) {
                 $_SESSION['rusmail'] = $rusmail;
                 $_SESSION['success'] = "Your are now logged in";
