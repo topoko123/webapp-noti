@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <form action="line-notify.php" method="post">
+    <form action="linenoti.php" method="post">
         <input name="firstname" placeholder='First Name (required)' type='text'>
         <br>
         <input name="lastname" placeholder='Last Name (required)' type='text'>

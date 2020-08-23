@@ -19,10 +19,10 @@
             header('Content-Type: text/html; charset=utf8');
             $res = notify_message($message);
             echo "<script>alert('สมัครสมาชิกเรียบร้อย');</script>";
-            header("location: index.php");
+            header("location: linenotipage.php");
         } else {
             echo "<script>alert('กรุณากรอกข้อมูลให้ครบถ้วน');</script>";
-            header("location: index.php");
+            header("location: linenotipage.php");
         }
     }
 
@@ -30,7 +30,7 @@
 		// LINE LINE_API https://notify-api.line.me/api/notify
 		// LINE TOKEN mhIYaeEr9u3YUfSH1u7h9a9GlIx3Ry6TlHtfVxn1bEu แนะนำให้ใช้ของตัวเองนะครับเพราะของผมยกเลิกแล้วไม่สามารถใช้ได้
         define('LINE_API',"https://notify-api.line.me/api/notify");
-        define('LINE_TOKEN',"mhIYaeEr9u3YUfSH1u7h9a9GlIx3Ry6TlHtfVxn1bEu");
+        define('LINE_TOKEN',"tJX3sfW98K2EeVtKKBjFihj6cYmPpPTo2hiRjgzjxa4");
 
         function notify_message($message) {
             $queryData = array('message' => $message);
