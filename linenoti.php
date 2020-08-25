@@ -7,7 +7,7 @@
     $phone = $_POST['phone'];
     $email = $_POST['email'];
 
-    $message = $header.
+    $message = $haeder.
                 "\n". "ชื่อจริง: " . $firstname .
                 "\n". "นามสกุล: " . $lastname .
                 "\n". "เบอร์โทรศัพท์: " . $phone .
@@ -27,8 +27,12 @@
     }
 
     function sendlinemesg() {
-		// LINE LINE_API https://notify-api.line.me/api/notify
-		// LINE TOKEN mhIYaeEr9u3YUfSH1u7h9a9GlIx3Ry6TlHtfVxn1bEu แนะนำให้ใช้ของตัวเองนะครับเพราะของผมยกเลิกแล้วไม่สามารถใช้ได้
+        
+		// LINE LINE_API https://notify-api.line.me/api/notify //นี่คือ ลิงก์เชื่อมต่อกับ linenotify
+        // LINE TOKEN tJX3sfW98K2EeVtKKBjFihj6cYmPpPTo2hiRjgzjxa4 
+        //bofTwv1Y7oU3bOdXKK6v5VgOlTAZ1ZIerR1VtQhsqwC key Aun
+        //jQIRr6rrL5RMJaSx1hnSKyBuX0lHUEK70cr5Scngsuo
+        //define เป็นการเก็บค่างคงที่แบบ run-time
         define('LINE_API',"https://notify-api.line.me/api/notify");
         define('LINE_TOKEN',"tJX3sfW98K2EeVtKKBjFihj6cYmPpPTo2hiRjgzjxa4");
 

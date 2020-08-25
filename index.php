@@ -23,7 +23,7 @@
 </head>
 <body>
 
-        <p>5555555555555555555555</p>
+        
     <div class="header">
         <h2>Home Page</h2>
     </div>
@@ -33,15 +33,15 @@
         <div class="success">  
             <h3>
                 <?php 
-                  echo ($_SESSION['sucess']);
-                  unset ($_SESSION['sucess']);
+                  echo ($_SESSION['success']);
+                  unset ($_SESSION['success']);
                   ?> 
             </h3>
         </div>
       <?php endif ?>  
         <?php if (isset($_SESSION['rusmail'])) : ?>
-            <p>welcom <strong><?php echo $_SESSION['rusmail']; ?></strong></p>
-            <p><a href="index.php?Logout='1'">Logout</a></p>
+            <p>welcome <strong><?php echo $_SESSION['rusmail']; ?></strong></p>
+            <p><a href="index.php?logout='1'">Logout</a></p>
         <?php endif ?>
     </div>
 </body>

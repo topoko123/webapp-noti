@@ -2,27 +2,33 @@
 <?php
 	session_start();
 	include('server.php');
-
-	if (isset($_SESSION['rusmail']))
-	{
-		echo สวัสดีคุณ.$_SESSION['rusmail'] ;
-		echo $_SESSION['success'];
-	}
+	
 ?>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel = "stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "login.css" >
-	<link rel = "stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+	<title>Login</title>
 	
 
-	<title>Document</title>
 </head>
 <body>
+
+	
+	
 	<!-------------NavBar---------------->
 	
 	<!-------------NavBar---------------->
+	<?php if (isset($_SESSION['error'])) : ?>
+						<div class="error">
+							<h3>
+								<?php
+									echo $_SESSION['error'];
+									unset($_SESSION['error']);
+								?><?php endif ?>
+						</div>
 <!--------------formlogin--------------->
 	<div class="text-center">
 	<!-- Button HTML (to Trigger Modal) -->
@@ -42,14 +48,7 @@
 			</div>
 			<div class="modal-body">
 				<form action="login_db.php" method="post">
-					<?php if (isset($_SESSION['error'])) : ?>
-						<div class="error">
-							<h3>
-								<?php
-									echo $_SESSION['error'];
-									unset($_SESSION['error']);
-								?><?php endif ?>
-						</div>
+					
 						<div class="form-group">
 							<input type="text" class="form-control" name="rusmail" placeholder="example@rmutsb.ac.th" required="required">		
 						</div>
@@ -66,7 +65,7 @@
 			</div>
 		</div>
 	</div>
-  </div>     -----
+  </div>     
       <!--------------formlogin---------->
 
 

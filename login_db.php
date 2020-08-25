@@ -6,26 +6,36 @@
     $errors = array();
 
     if (isset($_POST['submit'])) {
-        $username = mysqli_real_escape_string($conn, $_POST['rusmail']);
+        $rusmail = mysqli_real_escape_string($conn, $_POST['rusmail']);
         $password = mysqli_real_escape_string($conn, $_POST['password']);
+       // echo $rusmail;
+        //echo $password;
+    
+        // if (empty($rusmail)) {
+        //     array_push($errors, "Username is required");
+        // }
 
-        if (empty($rusmail)) {
-            array_push($errors, "Username is required");
-        }
-
-        if (empty($password)) {
-            array_push($errors, "Password is required");
-        }
+        // if (empty($password)) {
+        //     array_push($errors, "Password is required");
+        // }
 
         if (count($errors) == 0) {
             $password = md5($password);
-            $query = "SELECT * FROM member WHERE rusmail = '$rusmail' AND password = '$password' ";
-            $result = mysqli_query($conn, $query);
-            echo "$result";
-            if (mysqli_num_rows($result) == 1) {
-                $_SESSION['rusmail'] = $rusmail;
+           // $sql = "SELECT * FROM `member` WHERE `rusmail` = '".$rusmail."' AND `password` = '".$password."'";
+            $sql = "SELECT * FROM member WHERE rusmail = '".$rusmail."' AND password = '".$password."' ";
+            $result = mysqli_query($conn, $sql);  
+                     
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_array($result);
+                $_SESSION['memId'] = $row["memId"];
+                $_SESSION['rusmail'] = $row["rusmail"];
+                $_SESSION['status'] = $row["status"];
                 $_SESSION['success'] = "Your are now logged in";
-                header("location: index.php");
+                if($_SESSION['status']=="1"){
+                    header("location: index.php");
+                }else {
+                    header("location: index2.php");
+                }
             } else {
                 array_push($errors, "Wrong Username or Password");
                 $_SESSION['error'] = "Wrong Username or Password!";
