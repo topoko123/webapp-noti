@@ -54,7 +54,7 @@
                       <input type="email" class="form-control form-control-user" name="rusmail" id="rusmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required="required">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="rusmail" id="password" placeholder="Password" required="required">
+                      <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password" required="required">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
