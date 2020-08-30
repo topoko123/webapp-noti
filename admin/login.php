@@ -2,7 +2,7 @@
 <?php
 	session_start();
 	include('server.php');
-	
+  echo ($_SESSION['ses_accToken_val']);
 ?>
 <html lang="en">
 <head>

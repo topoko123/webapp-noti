@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <?php 
     session_start();
+  
+    include('server.php');
+    
+
+    if (!isset($_SESSION['rusmail'])) {
+        $_SESSION['msg'] = "You must log in first";
+        header('location: login.php');
+    }
 
     if(isset($_GET['logout'])) {
         session_destroy();
