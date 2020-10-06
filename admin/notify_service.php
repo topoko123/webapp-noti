@@ -1,21 +1,35 @@
-<!DOCTYPE html>
-<?php 
-    session_start();
+<?php
+        session_start();
+        include_once('server.php');
+        if (!isset($_SESSION['rusmail'])) {
+          $_SESSION['msg'] = "You must log in first";
+          header('location: login.php');
+      }
   
-    include('server.php');
-    
+      if(isset($_GET['logout'])) {
+          session_destroy();
+          unset($_SESSION['rusmail']);
+          header('location: login.php');
+      }
 
-    if (!isset($_SESSION['rusmail'])) {
-        $_SESSION['msg'] = "You must log in first";
-        header('location: login.php');
-    }
+        if (isset($_SESSION['complete']))
+        {
+          $message = $_SESSION['complete'];
+          echo "<script type='text/javascript'>alert('$message');</script>";
+          unset($_SESSION['complete']);
+        }
 
-    if(isset($_GET['logout'])) {
-        session_destroy();
-        unset($_SESSION['rusmail']);
-        header('location: login.php');
-    }
+        if(isset($_SESSION['nothing'])){
+          $message = $_SESSION['nothing'];
+          echo "<script type='text/javascript'>alert('$message');</script>";         
+          unset($_SESSION['nothing']);
+        }
 ?>
+<?php 
+      $sql = "SELECT * FROM `room` ORDER BY `roomId`";
+      $result = mysqli_query($conn, $sql);
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,6 +46,8 @@
     
 </head>
 <body id="page-top">
+
+ 
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -66,45 +82,26 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <?php if ($_SESSION['status'] == 1) : ?>
-
-        <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
-        <span>ส่งการแจ้งเตือน</span>
+          <i class="fas fa-fw fa-cog"></i>
+          <span>ส่งการแจ้งเตือน</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">ตัวเลือก:</h6>
-        <a class="collapse-item" href="notify_service.php">Linenotify</a>
-        <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">ตัวเลือก:</h6>
+            <a class="collapse-item" href="notify_service.php">Linenotify</a>
+          <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
+          </div>
         </div>
-        </div>
-        </li>
-      <?php else : ?>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
-        <span>การติดตาม</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">ตัวเลือก:</h6>
-        <a class="collapse-item" href="chanel.php">follow</a>
-        <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
-        </div>
-        </div>
-        </li>
-        <?php endif; ?>
-
+      </li>
       <!-- Nav Item - Tables -->
-      <?php if ($_SESSION['status'] == 1) : ?>
       <li class="nav-item">
         <a class="nav-link" href="import.php">
           <i class="fas fa-fw fa-table"></i>
           <span>ข้อมูล</span></a>
       </li>
-      <?php endif; ?>
+ 
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -313,41 +310,56 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+      <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">แจ้งเตือนข่าวสาร</h1>
-            <a href="authorize.php<?php $_GET['id'] = '1'?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>ไปยังหน้า Linenotify</a>
-          </div>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">ส่งข้อความ</h1>
 
-          <!-- Content Row -->
-          <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Information webapp</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">เป็นเว็บไซต์สำหรับแจ้งเตือนข่าวสาร</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            
 
-    </div>
-    <!-- End of Content Wrapper -->
 
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
   </div>
-  <!-- End of Page Wrapper -->
+  <div class="card-body">
+  <form action="notify_service2.php" method="post">
+  <div class="form-group">
+    <label for="exampleInputTopic">หัวข้อ</label>
+    <input type="text" name="topic" class="form-control" id="topic"  style="width:300px;"style="height:1000px;" placeholder="กรอกชื่อหัวข้อ..." required="required">
+  </div>
+  <div class="form-group row">
+    <div class="col-8">
+      <label for="exampleInputContent">เนื้อหา</label>
+      <textarea id="textarea" name="content" class="form-control" style="width:600px;" placeholder='เนื้อหา (required)' class="form-control"></textarea>
+    </div>
+  </div>
+      <div class="form-row align-items-center">
+        <div class="col-auto my-1">
+          <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+          <select name="choose" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+            <option selected>โปรดเลือก...</option>
+    <?php while($row = $result->fetch_assoc()): ?>
+            <option value="<?php echo $row['roomId']?>"><?php echo $row['room_name'] ?></option>
+    <?php endwhile; ?>
+          </select>
+        </div>
+            <br>       
+            <button type="submit" name="send" id="submit" class="btn btn-primary">ส่งข้อความ</button>
+    </form>
+        </form>
+    
+  </div>
+</div>
+    
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -393,4 +405,12 @@
 </body>
 
 </html>
-
+<!--   <div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+  </div>
+  <div class="custom-file">
+    <input type="file" name="chooseF" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" style="width: 30%;">
+    <label class="custom-file-label" style="width: 30%;" for="inputGroupFile01">Choose file</label>
+  </div>
+</div> -->

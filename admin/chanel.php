@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+<?php
+        session_start();
+        include_once('server.php');  
+?>
 <?php 
-    session_start();
-  
-    include('server.php');
-    
-
-    if (!isset($_SESSION['rusmail'])) {
+      if (!isset($_SESSION['rusmail'])) {
         $_SESSION['msg'] = "You must log in first";
         header('location: login.php');
     }
@@ -16,6 +14,7 @@
         header('location: login.php');
     }
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,6 +31,22 @@
     
 </head>
 <body id="page-top">
+   
+
+   
+   
+   
+ <style type = "text/css">
+      #show {
+    display: none;
+  }
+
+  #show.visible {
+    display: block;
+  }
+
+
+  </style>
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -64,24 +79,22 @@
       <div class="sidebar-heading">
         Interface
       </div>
-
+        <?php if ($_SESSION['status'] == 1) : ?>
       <!-- Nav Item - Pages Collapse Menu -->
-      <?php if ($_SESSION['status'] == 1) : ?>
-
-        <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
-        <span>ส่งการแจ้งเตือน</span>
+          <i class="fas fa-fw fa-cog"></i>
+          <span>ส่งการแจ้งเตือน</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">ตัวเลือก:</h6>
-        <a class="collapse-item" href="notify_service.php">Linenotify</a>
-        <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">ตัวเลือก:</h6>
+            <a class="collapse-item" href="notify_service.php">Linenotify</a>
+          <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
+          </div>
         </div>
-        </div>
-        </li>
-      <?php else : ?>
+      </li>
+        <?php else : ?>
         <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-cog"></i>
@@ -97,14 +110,14 @@
         </li>
         <?php endif; ?>
 
+        <?php if ($_SESSION['status'] == 1)  : ?>
       <!-- Nav Item - Tables -->
-      <?php if ($_SESSION['status'] == 1) : ?>
       <li class="nav-item">
         <a class="nav-link" href="import.php">
           <i class="fas fa-fw fa-table"></i>
           <span>ข้อมูล</span></a>
       </li>
-      <?php endif; ?>
+        <?php endif; ?>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -313,41 +326,75 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+      <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">แจ้งเตือนข่าวสาร</h1>
-            <a href="authorize.php<?php $_GET['id'] = '1'?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>ไปยังหน้า Linenotify</a>
-          </div>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">ส่งข้อความ</h1>
 
-          <!-- Content Row -->
-          <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Information webapp</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">เป็นเว็บไซต์สำหรับแจ้งเตือนข่าวสาร</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<?php
+    $sqli = "SELECT * FROM `room`";
+    $rr= mysqli_query($conn, $sqli);
+?>
+<?php
+    $sqlii = "SELECT * FROM `subscribe` ";
+    $rrr = mysqli_query($conn, $sqlii);
+?>
 
-            
-
-    </div>
-    <!-- End of Content Wrapper -->
-
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
   </div>
-  <!-- End of Page Wrapper -->
+  <div class="card-body">
+      <div class="row justify-content-content-center">
+          <table class="table">
+            <thead>
+                    <tr>
+                          <th>รายชื่อห้องติดตาม</th>
+                          <th colspan="2">การติดตาม</th>
+                    </tr> 
+            </thead>
+        <?php 
+            while  ($row = $rr->fetch_assoc()): ?>
+              
+                <?php $memId = $_SESSION['memId']; ?>
+                <?php $roomId = $row['roomId']; ?>
+                <?php $sq = "SELECT * FROM `subscribe` WHERE `memId`= '$memId' AND `roomId` = '$roomId' ";?>
+                <?php $query = mysqli_query($conn, $sq); ?>
+                
+                  <?php if (mysqli_num_rows($query) > 0) : ?>
+                    <tr>
+                          <td><?php echo $row['room_name']; ?></td>                       
+                          <td>
+                                <a href="chanel3.php?chanel=<?php echo $row['roomId']; ?>"
+                                class ="btn btn-info">ยกเลิกติดตาม</a> 
+                          </td>
+                    </tr>
+                  <?php else : ?>
+                      <tr>
+                          <td><?php echo $row['room_name']; ?></td>                       
+                          <td>
+                                <a href="chanel2.php?chanel=<?php echo $row['roomId']; ?>"
+                                class ="btn btn-info">+ติดตาม</a> 
+                          </td>
+                    </tr>
+                    <?php endif; ?>
+                     
+             <?php endwhile; ?>
+       <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <button name="follow-button" id="follow-button">+ Follow</button>	-->
+          </table>   
+      </div>
+  </div>
+</div>
+    
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -393,4 +440,3 @@
 </body>
 
 </html>
-

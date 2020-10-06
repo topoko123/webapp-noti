@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <?php 
     session_start();
-
+    include_once('server.php');
     if(isset($_GET['logout'])) {
         session_destroy();
         unset($_SESSION['rusmail']);
-        header('location: login.php');
+        header("location: login.php");
     }
+?>
+<?php
+      $query = "SELECT * FROM `member`  ";
+      $result = mysqli_query($conn,$query);
+      if(isset($result)){
+        while ($row = mysqli_fetch_array($result)) {
+           $_SESSION['rusmaill'] = $row['rusmail'];
+        }
+      }
+      
 ?>
 <html lang="en">
 <head>
@@ -16,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"> 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <title>SB Admin 2 - Dashboard</title>
+  <title>WBNTFY</title>
 
     
 </head>
@@ -33,7 +43,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">WBNTFY <sup>2</sup></div>
       </a>
 
       <!-- Divider -->
@@ -41,9 +51,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="index2.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>หน้าแรก</span></a>
       </li>
 
       <!-- Divider -->
@@ -298,7 +308,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">คุณAdmin</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['rusmail'] ?></span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -334,7 +344,8 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <a href="authorize.php<?php $_GET['id'] = '1'?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>ไปยังหน้า Linenotify</a>
+            
           </div>
 
           <!-- Content Row -->

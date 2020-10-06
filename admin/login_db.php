@@ -37,9 +37,10 @@
                 if($_SESSION['status']=="1"){
                     header("location: index.php");
                 }else {
-                    header("location: index2.php");
+                    header("location: index.php");
                 }
             } else {
+                
                 array_push($errors, "Wrong Username or Password");
                 $_SESSION['error'] = "Wrong Username or Password!";
                 header("location: login.php");

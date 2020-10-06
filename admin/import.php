@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-<?php 
-    session_start();
-  
-    include('server.php');
-    
+<?php session_start();
+      include_once('server.php');
 
-    if (!isset($_SESSION['rusmail'])) {
+      if (!isset($_SESSION['rusmail'])) {
         $_SESSION['msg'] = "You must log in first";
         header('location: login.php');
     }
@@ -66,45 +63,26 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <?php if ($_SESSION['status'] == 1) : ?>
-
-        <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
-        <span>ส่งการแจ้งเตือน</span>
+          <i class="fas fa-fw fa-cog"></i>
+          <span>ส่งการแจ้งเตือน</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">ตัวเลือก:</h6>
-        <a class="collapse-item" href="notify_service.php">Linenotify</a>
-        <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">ตัวเลือก:</h6>
+            <a class="collapse-item" href="notify_service.php">Linenotify</a>
+          <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
+          </div>
         </div>
-        </div>
-        </li>
-      <?php else : ?>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
-        <span>การติดตาม</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">ตัวเลือก:</h6>
-        <a class="collapse-item" href="chanel.php">follow</a>
-        <!--  <a class="collapse-item" href="cards.html">Cards</a>-->
-        </div>
-        </div>
-        </li>
-        <?php endif; ?>
-
+      </li>
       <!-- Nav Item - Tables -->
-      <?php if ($_SESSION['status'] == 1) : ?>
       <li class="nav-item">
         <a class="nav-link" href="import.php">
           <i class="fas fa-fw fa-table"></i>
           <span>ข้อมูล</span></a>
       </li>
-      <?php endif; ?>
+ 
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -311,43 +289,103 @@
 
         </nav>
         <!-- End of Topbar -->
-
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+      <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">แจ้งเตือนข่าวสาร</h1>
-            <a href="authorize.php<?php $_GET['id'] = '1'?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>ไปยังหน้า Linenotify</a>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Information webapp</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">เป็นเว็บไซต์สำหรับแจ้งเตือนข่าวสาร</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">เพิ่มข้อมูล</h1>
+<div class="outer-container">
+<form action="excel.php" method="post"
+    name="frmExcelImport" id="frmExcelImport" enctype="multipart/form-data">
+    <div>
+        <label>Choose Excel
+            File</label> <input type="file" name="file"
+            id="file" accept=".xls,.xlsx">
+        <button type="submit" id="submit" name="import"
+            class="btn-submit">Import</button>
 
     </div>
-    <!-- End of Content Wrapper -->
 
+</form>
+
+</div>
+<div id="response" class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>"><?php if(!empty($message)) { echo $message; } ?></div>
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
   </div>
-  <!-- End of Page Wrapper -->
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <?php
+            $sql = "SELECT * FROM `member`";
+            $result = mysqli_query($conn, $sql);
+            if(!empty($result)) 
+        {
+        ?>
+        <thead>
+          <tr>
+          <th>ชื่อจริง</th>
+            <th>นามสกุล</th>
+            <th>อีเมลล์</th>
+            <th>โทเค็นคีย์</th>   
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>ชื่อจริง</th>
+            <th>นามสกุล</th>
+            <th>อีเมล</th>
+            <th>โทเค็นคีย์</th>                   
+          </tr>
+        </tfoot>
+        <?php
+            foreach($result as $row){
+        ?>
+        <tbody>
+          <tr>
+            <td><?php echo $row['firstname']; ?></td>
+            <td><?php echo $row['lastname']; ?></td>
+            <td><?php echo $row['rusmail']; ?></td>
+            <td><?php echo $row['access_token']; ?></td>                    
+          </tr>
+          <?php
+            }
+            ?>
+          
+        </tbody>
+      </table>
+      <?php
+        }
+        ?>
+    </div>
+  </div>
+</div>
+    
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+<div class="container my-auto">
+<div class="copyright text-center my-auto">
+  <span>Copyright &copy; Your Website 2020</span>
+</div>
+</div>
+</footer>
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+       
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
@@ -393,4 +431,3 @@
 </body>
 
 </html>
-
