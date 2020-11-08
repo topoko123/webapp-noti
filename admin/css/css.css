@@ -1,0 +1,15 @@
+.btn-primary{
+ margin : 0px;
+ padding-top: 0.5rem;
+ padding-bottom: 0.5rem;
+ padding-left: 2rem;
+ padding-right: 2rem;
+ align-items: flex;
+ 
+}
+
+.form-control{
+    max-width: 25rem;
+    
+}
+

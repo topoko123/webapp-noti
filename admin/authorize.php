@@ -24,7 +24,7 @@
     http_build_query(array(
         'response_type' => 'code',
         'client_id' => 'Bls7f9yTn7I7CA9jAue1lK',
-        'redirect_uri' => 'https://fee7e9d7b780.ngrok.io/pro-notify/admin/callback.php',
+        'redirect_uri' => 'https://localhost/pro-notify/admin/callback.php',
         'scope' => 'notify',
         'state' => $_SESSION['my_service_state_key']
         )
